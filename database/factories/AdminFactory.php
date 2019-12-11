@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model\admin\admin;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 $factory->define(admin::class, function (Faker $faker) {
@@ -11,8 +12,8 @@ $factory->define(admin::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'phone' => $faker->phone,
+        'phone' => $faker->phoneNumber,
         'status' => $faker->numberBetween(0, 1),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });

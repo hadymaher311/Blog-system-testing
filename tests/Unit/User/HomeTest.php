@@ -2,9 +2,10 @@
 
 namespace Tests\Unit\User;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Model\user\post;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HomeTest extends TestCase
 {
@@ -19,11 +20,12 @@ class HomeTest extends TestCase
 
         $response->assertStatus(200);
     }
-    
+
     public function test_post_page_without_login()
     {
-        $response = $this->get('/post/1');
-    
+        $post = factory(post::class)->make();
+        $response = $this->get('/post/' . $post->id);
+
         $response->assertStatus(200);
     }
 }
