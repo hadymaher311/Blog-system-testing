@@ -14,6 +14,5 @@ $factory->define(admin::class, function (Faker $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'phone' => $faker->phoneNumber,
         'status' => $faker->numberBetween(0, 1),
-        'remember_token' => Str::random(10),
     ];
 });

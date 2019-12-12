@@ -3,7 +3,9 @@
 namespace Tests\Unit\User;
 
 use Tests\TestCase;
+use App\Model\user\tag;
 use App\Model\user\post;
+use App\Model\user\category;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -21,10 +23,18 @@ class HomeTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_post_page_without_login()
+    public function test_tag_page_without_login()
     {
-        $post = factory(post::class)->make();
-        $response = $this->get('/post/' . $post->id);
+        $tag = tag::find(1);
+        $response = $this->get('/post/tag/' . $tag->slug);
+
+        $response->assertStatus(200);
+    }
+    
+    public function test_category_page_without_login()
+    {
+        $category = category::find(1);
+        $response = $this->get('/post/category/' . $category->slug);
 
         $response->assertStatus(200);
     }
