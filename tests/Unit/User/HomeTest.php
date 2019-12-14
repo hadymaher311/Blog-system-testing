@@ -38,4 +38,26 @@ class HomeTest extends TestCase
 
         $response->assertStatus(200);
     }
+    
+    public function test_post_page_without_login()
+    {
+        $category = category::find(1);
+        $response = $this->get('/post/' . $category->slug);
+
+        $response->assertStatus(404);
+    }
+
+    public function test_login()
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+    }
+
+    // public function test_login_data()
+    // {
+    //    // TODO Login with register user and check output respone
+    //    // TODO login with new user and check output response 
+    // }
 }
+
