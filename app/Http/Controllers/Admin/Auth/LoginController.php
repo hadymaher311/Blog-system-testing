@@ -55,7 +55,7 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         $admin = admin::where('email',$request->email)->first();
-        if (count($admin)) {
+        if (($admin)) {
             if ($admin->status == 0) {
                 return ['email'=>'inactive','password'=>'You are not an active person, please contact Admin'];
             }else{
