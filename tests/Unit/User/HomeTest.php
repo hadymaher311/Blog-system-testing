@@ -74,5 +74,29 @@ class HomeTest extends TestCase
 
         $response->assertStatus(200);
     }
-}
 
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    public function test_user_home_page_responce_without_login()
+    {
+        $response = $this->get('/home');
+        $response->assertRedirect('/login');
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    public function test_user_home_page_responce_with_login()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->withSession(['foo' => 'bar'])->get('/home');
+        $response->assertOk();
+    }
+}
