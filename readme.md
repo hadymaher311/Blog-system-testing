@@ -2,7 +2,7 @@
 
 This project is used for testing course in first semester 4th grade Computer department Faculty of Engineering Cairo University.
 
-## usage
+## Usage
 
 ```
 git clone https://github.com/hadymaher311/Blog-system-testing.git
@@ -10,6 +10,8 @@ git clone https://github.com/hadymaher311/Blog-system-testing.git
 composer install
 
 cp .env.example .env
+
+php artisan key:generate
 
 php artisan migrate --seed
 
