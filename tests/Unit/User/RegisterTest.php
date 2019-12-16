@@ -30,8 +30,8 @@ class RegisterTest extends TestCase
         $response = $this->post('register', [
             'name' => $user->name,
             'email' => $user->email,
-            'password' => 'password',
-            'password_confirmation' => 'password'
+            'password' => 'secret',
+            'password_confirmation' => 'secret'
         ]);
         $response->assertStatus(302);
         $this->assertAuthenticated();
