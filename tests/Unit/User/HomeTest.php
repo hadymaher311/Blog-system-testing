@@ -17,7 +17,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_home_page_responce_without_login()
+    public function test_home_page_response_without_login()
     {
         $response = $this->get('/');
 
@@ -40,7 +40,7 @@ class HomeTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_home_page_responce_with_login()
+    public function test_home_page_response_with_login()
     {
         $user = factory(User::class)->create();
 
@@ -80,7 +80,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_user_home_page_responce_without_login()
+    public function test_user_home_page_response_without_login()
     {
         $response = $this->get('/home');
         $response->assertRedirect('/login');
@@ -91,7 +91,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_user_home_page_responce_with_login()
+    public function test_user_home_page_response_with_login()
     {
         $user = factory(User::class)->create();
 

@@ -14,7 +14,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_admin_home_page_responce_without_login()
+    public function test_admin_home_page_response_without_login()
     {
         $response = $this->get('admin/home');
         $response->assertRedirect('/admin-login');
@@ -25,7 +25,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_admin_home_page_responce_with_login()
+    public function test_admin_home_page_response_with_login()
     {
         $admin = factory(admin::class)->create();
 
