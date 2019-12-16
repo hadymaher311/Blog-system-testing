@@ -17,7 +17,7 @@ class ResetsPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testDisplaysPasswordResetRequestForm()
+    public function test_displays_password_reset_request_form()
     {
         $response = $this->get('password/reset');
         $response->assertStatus(200);
@@ -27,7 +27,7 @@ class ResetsPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testSendsPasswordResetEmail()
+    public function test_sends_password_reset_email()
     {
         $user = factory(User::class)->create();
         $this->expectsNotification($user, ResetPassword::class);
@@ -39,7 +39,7 @@ class ResetsPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testDoesNotSendPasswordResetEmail()
+    public function test_does_not_send_password_reset_email()
     {
         $this->doesntExpectJobs(ResetPassword::class);
         $this->post('password/email', ['email' => 'invalid@email.com']);
@@ -49,7 +49,7 @@ class ResetsPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testDisplaysPasswordResetForm()
+    public function test_displays_password_reset_form()
     {
         $response = $this->get('/password/reset/token');
         $response->assertStatus(200);
@@ -59,7 +59,7 @@ class ResetsPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testChangesAUsersPassword()
+    public function test_changes_a_users_password()
     {
         $user = factory(User::class)->create();
         $token = Password::createToken($user);

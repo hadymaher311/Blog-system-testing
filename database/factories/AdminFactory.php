@@ -13,6 +13,6 @@ $factory->define(admin::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'phone' => $faker->phoneNumber,
-        'status' => $faker->numberBetween(0, 1),
+        'status' => 1,
     ];
 });
