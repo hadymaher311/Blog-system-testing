@@ -108,7 +108,7 @@ class RolesTest extends TestCase
     public function test_roles_show_page_response_with_login()
     {
         $admin = factory(admin::class)->create();
-        $role = factory(admin::class)->create();
+        $role = factory(role::class)->create();
 
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->get('admin/role/' . $role->id);

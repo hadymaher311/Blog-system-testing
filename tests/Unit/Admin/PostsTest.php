@@ -148,7 +148,7 @@ class PostsTest extends TestCase
     public function test_posts_show_page_response_with_login()
     {
         $admin = factory(admin::class)->create();
-        $post = factory(admin::class)->create();
+        $post = factory(post::class)->create();
 
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->get('admin/post/' . $post->id);
