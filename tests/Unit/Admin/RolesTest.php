@@ -122,7 +122,6 @@ class RolesTest extends TestCase
      */
     public function test_roles_store_response_without_login()
     {
-        $admin = factory(admin::class)->create();
         $response = $this->post('admin/role/', [
             'name' => Str::random(12),
             'permissions' => []
@@ -154,7 +153,6 @@ class RolesTest extends TestCase
      */
     public function test_roles_update_response_without_login()
     {
-        $admin = factory(admin::class)->create();
         $role = factory(role::class)->create();
         $response = $this->put('admin/role/' . $role->id, [
             'name' => Str::random(12),
@@ -188,7 +186,6 @@ class RolesTest extends TestCase
      */
     public function test_roles_delete_response_without_login()
     {
-        $admin = factory(admin::class)->create();
         $role = factory(role::class)->create();
         $response = $this->delete('admin/role/' . $role->id);
         $response->assertRedirect('/admin-login');

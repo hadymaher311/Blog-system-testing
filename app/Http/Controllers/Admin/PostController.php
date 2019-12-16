@@ -66,7 +66,7 @@ class PostController extends Controller
         if ($request->hasFile('image')) {
             $imageName = $request->image->store('public');
         }else{
-            return 'No';
+            return abort(404);
         }
         $post = new post;
         $post->image = $imageName;
