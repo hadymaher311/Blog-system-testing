@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         factory(User::class, 5)->create();
         factory(admin::class, 5)->create();
         factory(role::class, 5)->create();
-        factory(Permission::class, 5)->create();
+        factory(Permission::class, 30)->create();
         factory(admin_role::class, 10)->create();
         factory(permission_role::class, 10)->create();
         factory(category::class, 5)->create();
