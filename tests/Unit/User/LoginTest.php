@@ -35,6 +35,25 @@ class LoginTest extends TestCase
         $response->assertStatus(302);
         $this->assertAuthenticatedAs($user);
     }
+    
+    /**
+     * A valid user can be logged in.
+     *
+     * @return void
+     */
+    public function testLoginAValidUserWithRememberMe()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'secret',
+            'remember' => true
+        ]);
+        $response->assertCookie('remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d');
+        $response->assertStatus(302);
+        $this->assertAuthenticatedAs($user);
+    }
+    
     /**
      * An invalid user cannot be logged in.
      *
