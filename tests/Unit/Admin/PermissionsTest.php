@@ -127,6 +127,24 @@ class PermissionsTest extends TestCase
      *
      * @return void
      */
+    public function test_permissions_store_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+
+        $items = ['post', 'user', 'other'];
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/permission/', [
+                'name' => '',
+                'for' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_permissions_update_response_without_login()
     {
         $permission = factory(Permission::class)->create();
@@ -162,6 +180,25 @@ class PermissionsTest extends TestCase
      *
      * @return void
      */
+    public function test_permissions_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $permission = factory(Permission::class)->create();
+        $items = ['post', 'user', 'other'];
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/permission/' . $permission->id, [
+                'name' => '',
+                'for' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_permissions_delete_response_without_login()
     {
         $permission = factory(Permission::class)->create();
@@ -182,5 +219,6 @@ class PermissionsTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/permission/' . $permission->id);
         $response->assertStatus(302);
+        $this->assertDeleted($permission);
     }
 }

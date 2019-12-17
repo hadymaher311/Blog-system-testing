@@ -173,6 +173,27 @@ class CategoriesTest extends TestCase
      *
      * @return void
      */
+    public function test_categories_store_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $role = factory(role::class)->create();
+        $permission = Permission::find(12);
+        $admin->roles()->attach($role);
+        $role->permissions()->attach($permission);
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/category/', [
+                'name' => '',
+                'slug' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_categories_update_response_without_login()
     {
         $category = factory(category::class)->create();
@@ -210,6 +231,28 @@ class CategoriesTest extends TestCase
      *
      * @return void
      */
+    public function test_categories_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $role = factory(role::class)->create();
+        $permission = Permission::find(12);
+        $admin->roles()->attach($role);
+        $role->permissions()->attach($permission);
+        $category = factory(category::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/category/' . $category->id, [
+                'name' => '',
+                'slug' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_categories_delete_response_without_login()
     {
         $category = factory(category::class)->create();
@@ -234,5 +277,6 @@ class CategoriesTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/category/' . $category->id);
         $response->assertStatus(302);
+        $this->assertDeleted($category);
     }
 }

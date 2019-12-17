@@ -161,6 +161,27 @@ class AdminsTest extends TestCase
      *
      * @return void
      */
+    public function test_admins_store_response_with_login_with_invalid_data()
+    {
+        $admin = factory(admin::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/user/', [
+                'name' => '',
+                'email' => '',
+                'phone' => '',
+                'password' => '',
+                'status' => '',
+                'role' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_admins_update_response_without_login()
     {
         $admin = factory(admin::class)->create();
@@ -191,6 +212,25 @@ class AdminsTest extends TestCase
             ]);
         $response->assertStatus(302);
     }
+    
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    public function test_admins_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $admin2 = factory(admin::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/user/' . $admin2->id, [
+                'name' => '',
+                'email' => '',
+                'phone' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
 
     /**
      * A basic unit test example.
@@ -218,5 +258,6 @@ class AdminsTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/user/' . $admin2->id);
         $response->assertStatus(302);
+        $this->assertDeleted($admin2);
     }
 }

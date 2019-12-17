@@ -151,6 +151,23 @@ class RolesTest extends TestCase
      *
      * @return void
      */
+    public function test_roles_store_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/role/', [
+                'name' => '',
+                'permissions' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_roles_update_response_without_login()
     {
         $role = factory(role::class)->create();
@@ -184,6 +201,24 @@ class RolesTest extends TestCase
      *
      * @return void
      */
+    public function test_roles_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $role = factory(role::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/role/' . $role->id, [
+                'name' => '',
+                'permissions' => '',
+            ]);
+        $response->assertStatus(302);
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_roles_delete_response_without_login()
     {
         $role = factory(role::class)->create();
@@ -204,5 +239,6 @@ class RolesTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/role/' . $role->id);
         $response->assertStatus(302);
+        $this->assertDeleted($role);
     }
 }

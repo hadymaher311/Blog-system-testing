@@ -173,6 +173,27 @@ class TagsTest extends TestCase
      *
      * @return void
      */
+    public function test_tags_store_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $role = factory(role::class)->create();
+        $permission = Permission::find(11);
+        $admin->roles()->attach($role);
+        $role->permissions()->attach($permission);
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/tag/', [
+                'name' => '',
+                'slug' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_tags_update_response_without_login()
     {
         $tag = factory(tag::class)->create();
@@ -210,6 +231,28 @@ class TagsTest extends TestCase
      *
      * @return void
      */
+    public function test_tags_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $role = factory(role::class)->create();
+        $permission = Permission::find(11);
+        $admin->roles()->attach($role);
+        $role->permissions()->attach($permission);
+        $tag = factory(tag::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/tag/' . $tag->id, [
+                'name' => '',
+                'slug' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_tags_delete_response_without_login()
     {
         $tag = factory(tag::class)->create();
@@ -234,5 +277,6 @@ class TagsTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/tag/' . $tag->id);
         $response->assertStatus(302);
+        $this->assertDeleted($tag);
     }
 }

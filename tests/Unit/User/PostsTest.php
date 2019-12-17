@@ -51,6 +51,18 @@ class PostsTest extends TestCase
         $response->assertStatus(200);
     }
     
+    public function test_save_non_post_like_with_login()
+    {
+        $user = factory(User::class)->create();
+        $post = factory(post::class)->create();
+
+        $response = $this->actingAs($user)
+            ->withSession(['foo' => 'bar'])->post('/saveLike', [
+                'id' => $post->id + 1,
+            ]);
+        $response->assertStatus(404);
+    }
+    
     public function test_get_post_without_login()
     {
         $post = factory(post::class)->create();

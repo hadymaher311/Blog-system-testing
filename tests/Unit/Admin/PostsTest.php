@@ -198,6 +198,26 @@ class PostsTest extends TestCase
      *
      * @return void
      */
+    public function test_posts_store_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->post('admin/post/', [
+                'title' => '',
+                'subtitle' => '',
+                'slug' => '',
+                'body' => '',
+                'image' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_posts_update_response_without_login()
     {
         $admin = factory(admin::class)->create();
@@ -238,6 +258,27 @@ class PostsTest extends TestCase
      *
      * @return void
      */
+    public function test_posts_update_response_with_login_with_invalide_data()
+    {
+        $admin = factory(admin::class)->create();
+        $post = factory(post::class)->create();
+
+        $response = $this->actingAs($admin, 'admin')
+            ->withSession(['foo' => 'bar'])->put('admin/post/' . $post->id, [
+                'title' => '',
+                'subtitle' => '',
+                'slug' => '',
+                'body' => '',
+                'image' => '',
+            ]);
+        $response->assertSessionHasErrors();
+    }
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
     public function test_posts_delete_response_without_login()
     {
         $admin = factory(admin::class)->create();
@@ -259,5 +300,6 @@ class PostsTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->withSession(['foo' => 'bar'])->delete('admin/post/' . $post->id);
         $response->assertStatus(302);
+        $this->assertDeleted($post);
     }
 }
